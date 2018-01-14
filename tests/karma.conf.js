@@ -5,13 +5,13 @@ module.exports = function (config) {
     reporters: ['mocha', 'karma-typescript'],
     client: {
       mocha: {
-        timeout : 10000, // 10 seconds - upped from 2 seconds
+        timeout: 10000, // 10 seconds - upped from 2 seconds
         retries: 3 // Allow for slow server on CI.
       }
     },
     files: [
-      { pattern: "tests/src/**/*.ts" },
-      { pattern: "src/**/*.ts" }
+      {pattern: "tests/src/**/*.ts"},
+      {pattern: "src/**/*.ts"}
     ],
     preprocessors: {
       '**/*.ts': ['karma-typescript']

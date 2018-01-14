@@ -2,13 +2,13 @@
 # coding: utf-8
 
 # Copyright (c) Samuel Gratzl.
-# Distributed under the terms of the Modified BSD License.
+# Distributed under the terms of the MIT License.
 
 import pytest
 
-from ..example import ExampleWidget
+from ..lineUp import LineUpWidget
 
 
-def test_example_creation_blank():
-    w = ExampleWidget()
-    assert w.value == 'Hello World'
+def test_lineUp_creation_blank():
+  w = LineUpWidget()
+  assert w.value == 'Hello World'

@@ -1,41 +1,26 @@
 // Copyright (c) Jupyter Development Team.
-// Distributed under the terms of the Modified BSD License.
+// Distributed under the terms of the MIT License.
 
-import {
-  Application, IPlugin
-} from '@phosphor/application';
-
-import {
-  Widget
-} from '@phosphor/widgets';
-
-import {
-  IJupyterWidgetRegistry
- } from '@jupyter-widgets/base';
-
-import {
-  ExampleModel, ExampleView
-} from './widget';
-
-import {
-  JUPYTER_EXTENSION_VERSION
-} from './version';
+import {IJupyterWidgetRegistry} from '@jupyter-widgets/base';
+import {Application, IPlugin} from '@phosphor/application';
+import {Widget} from '@phosphor/widgets';
+import {JUPYTER_EXTENSION_VERSION} from './version';
+import {LineUpModel, LineUpView} from './widget';
 
 
 const EXTENSION_ID = 'jupyter.extensions.lineup';
 
-
 /**
- * The example plugin.
+ * The lineUp plugin.
  */
-const examplePlugin: IPlugin<Application<Widget>, void> = {
+const lineupPlugin: IPlugin<Application<Widget>, void> = {
   id: EXTENSION_ID,
   requires: [IJupyterWidgetRegistry],
   activate: activateWidgetExtension,
   autoStart: true
 };
 
-export default examplePlugin;
+export default lineupPlugin;
 
 
 /**
@@ -46,8 +31,8 @@ function activateWidgetExtension(app: Application<Widget>, registry: IJupyterWid
     name: 'lineup_widget',
     version: JUPYTER_EXTENSION_VERSION,
     exports: {
-      ExampleModel: ExampleModel,
-      ExampleView: ExampleView
+      LineUpModel,
+      LineUpView
     }
   });
 }

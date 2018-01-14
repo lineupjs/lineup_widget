@@ -1,5 +1,5 @@
 // Copyright (c) Samuel Gratzl.
-// Distributed under the terms of the Modified BSD License.
+// Distributed under the terms of the MIT License.
 
 /**
  * The version of the attribute spec that this package
@@ -9,5 +9,4 @@
  * Update this value when attributes are added/removed from
  * your models, or serialized format changes.
  */
-export
-const JUPYTER_EXTENSION_VERSION = '1.0.0';
+export const JUPYTER_EXTENSION_VERSION = '1.0.0';

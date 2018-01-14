@@ -16,8 +16,8 @@ prune docs/build
 prune docs/gh-pages
 prune docs/dist
 
-# Examples
-graft examples
+# LineUps
+graft lineUps
 
 # Tests
 graft tests
