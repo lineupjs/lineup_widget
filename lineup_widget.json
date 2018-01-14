@@ -1,0 +1,5 @@
+{
+  "load_extensions": {
+    "lineup_widget/extension": true
+  }
+}

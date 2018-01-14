@@ -1,0 +1,2 @@
+[run]
+omit = lineup_widget/tests/*
