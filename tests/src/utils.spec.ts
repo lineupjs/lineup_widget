@@ -26,9 +26,8 @@ export class MockComm {
   _process_msg(msg: services.KernelMessage.ICommMsg) {
     if (this._on_msg) {
       return this._on_msg(msg);
-    } else {
-      return Promise.resolve();
     }
+    return Promise.resolve();
   }
 
   close(): string {
@@ -60,7 +59,7 @@ export class DummyManager extends widgets.ManagerBase<HTMLElement> {
   display_view(msg: services.KernelMessage.IMessage, view: Backbone.View<Backbone.Model>, options: any) {
     // TODO: make this a spy
     // TODO: return an html element
-    return Promise.resolve(view).then(view => {
+    return Promise.resolve(view).then((view) => {
       this.el.appendChild(view.el);
       view.on('remove', () => console.log('view removed', view));
       return view.el;
@@ -69,20 +68,18 @@ export class DummyManager extends widgets.ManagerBase<HTMLElement> {
 
   protected loadClass(className: string, moduleName: string, moduleVersion: string): Promise<any> {
     if (moduleName === '@jupyter-widgets/base') {
-      if ((widgets as any)[className]) {
-        return Promise.resolve((widgets as any)[className]);
-      } else {
-        return Promise.reject(`Cannot find class ${className}`)
+      if ((<any>widgets)[className]) {
+        return Promise.resolve((<any>widgets)[className]);
       }
-    } else if (moduleName === 'jupyter-datawidgets') {
+      return Promise.reject(`Cannot find class ${className}`)
+    }
+    if (moduleName === 'jupyter-datawidgets') {
       if (this.testClasses[className]) {
         return Promise.resolve(this.testClasses[className]);
-      } else {
-        return Promise.reject(`Cannot find class ${className}`)
       }
-    } else {
-      return Promise.reject(`Cannot find module ${moduleName}`);
+      return Promise.reject(`Cannot find class ${className}`);
     }
+    return Promise.reject(`Cannot find module ${moduleName}`);
   }
 
   _get_comm_info() {
@@ -99,17 +96,17 @@ export class DummyManager extends widgets.ManagerBase<HTMLElement> {
 }
 
 
-export interface Constructor<T> {
+export interface IConstructor<T> {
   new (attributes?: any, options?: any): T;
 }
 
-export function createTestModel<T extends widgets.WidgetModel>(constructor: Constructor<T>, attributes?: any): T {
-  let id = widgets.uuid();
-  let widget_manager = new DummyManager();
-  let modelOptions = {
+export function createTestModel<T extends widgets.WidgetModel>(constructor: IConstructor<T>, attributes?: any): T {
+  const id = widgets.uuid();
+  const widget_manager = new DummyManager();
+  const modelOptions = {
     widget_manager: widget_manager,
     model_id: id,
-  }
+  };
 
   return new constructor(attributes, modelOptions);
 }

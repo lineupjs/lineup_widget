@@ -6,9 +6,9 @@
 
 import pytest
 
-from ..lineUp import LineUpWidget
+from ..lineup import LineUpWidget
 
 
-def test_lineUp_creation_blank():
+def test_lineup_creation_blank():
   w = LineUpWidget()
   assert w.value == 'Hello World'

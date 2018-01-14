@@ -23,7 +23,7 @@ export class LineUpModel extends DOMWidgetModel {
   static serializers = {
     ...DOMWidgetModel.serializers,
     // Add any extra serializers here
-  }
+  };
 
   static model_name = 'LineUpModel';
   static model_module = 'lineup_widget';
