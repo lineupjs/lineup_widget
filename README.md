@@ -10,14 +10,14 @@ Installation
 ------------
 
 ```bash
-pip install lineup_widget
+pip install -e git+https://github.com/sgratzl/lineup_widget.git@develop#egg=lineup_widget
 jupyter nbextension enable --py [--sys-prefix|--user|--system] lineup_widget
 ```
 
 Or, if you use jupyterlab:
 
 ```bash
-pip install lineup_widget
+pip install -e git+https://github.com/sgratzl/lineup_widget.git@develop#egg=lineup_widget
 jupyter labextension install @jupyter-widgets/jupyterlab-manager
 ```
 
