@@ -5,5 +5,5 @@
 # Distributed under the terms of the MIT License.
 
 from ._version import __version__, version_info
-from .lineUp import LineUpWidget
+from .lineup import LineUpWidget
 from .nbextension import _jupyter_nbextension_paths

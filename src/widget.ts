@@ -5,7 +5,6 @@ import {DOMWidgetModel, DOMWidgetView} from '@jupyter-widgets/base';
 
 import {JUPYTER_EXTENSION_VERSION} from './version';
 
-
 export class LineUpModel extends DOMWidgetModel {
   defaults() {
     return {
@@ -16,7 +15,7 @@ export class LineUpModel extends DOMWidgetModel {
       _view_name: LineUpModel.view_name,
       _view_module: LineUpModel.view_module,
       _view_module_version: LineUpModel.view_module_version,
-      value: 'Hello World'
+      data: []
     };
   }
 
@@ -36,11 +35,14 @@ export class LineUpModel extends DOMWidgetModel {
 
 export class LineUpView extends DOMWidgetView {
   render() {
-    this.value_changed();
-    this.model.on('change:value', this.value_changed, this);
+    this.data_changed();
+    this.model.on('change:data', this.data_changed, this);
   }
 
-  value_changed() {
-    this.el.textContent = this.model.get('value');
+  data_changed() {
+    this.el.textContent = this.model.get('data');
+    console.log(this.model.get('options'));
+    console.log(this.model.get('selections'));
+    console.log(this.model.get('rankings'));
   }
 }

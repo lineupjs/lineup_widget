@@ -89,7 +89,7 @@ setup_args = dict(
       'pytest-cov',
       'nbval',
     ],
-    'lineUps': [
+    'lineups': [
       # Any requirements for the lineUps to run
     ],
   },

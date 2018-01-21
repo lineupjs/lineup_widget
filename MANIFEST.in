@@ -17,7 +17,7 @@ prune docs/gh-pages
 prune docs/dist
 
 # LineUps
-graft lineUps
+graft lineups
 
 # Tests
 graft tests
