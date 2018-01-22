@@ -8,15 +8,15 @@
 TODO: Add module docstring
 """
 
-from ipywidgets import DOMWidget
-from traitlets import Unicode, List, Dict, Bool, Instance, HasTraits
+from ipywidgets import DOMWidget, Layout
+from traitlets import default, Unicode, List, Dict, Bool, Instance, HasTraits, Enum, Union
 
 module_name = "lineup_widget"
 module_version = "0.1.0"
 
 
 class LineUpRanking(HasTraits):
-  columns = List(trait = Union(Unicode(), Dict()), ['_*', '*']).tag(sync=True)
+  columns = List(trait = Union((Unicode(), Dict())), default_value = ['_*', '*']).tag(sync=True)
   sortBy = List([]).tag(sync=True)
   groupBy = List([]).tag(sync=True)
 
@@ -37,20 +37,20 @@ class LineUpWidget(DOMWidget):
                     singleSelection = Bool(),
                     noCriteriaLimits = Bool(),
                     animated = Bool(),
-                    sidePanel = Enum((True, False, 'collapsed'))
+                    sidePanel = Enum((True, False, 'collapsed')),
                     summaryHeader = Bool(),
                   ), default_value = dict(
-                    filterGlobally = TRUE,
-                    singleSelection = FALSE,
-                    noCriteriaLimits = FALSE,
-                    animated = TRUE,
+                    filterGlobally = True,
+                    singleSelection = False,
+                    noCriteriaLimits = False,
+                    animated = True,
                     sidePanel = 'collapsed',
-                    summaryHeader = TRUE
+                    summaryHeader = True
                   )).tag(sync=True)
   rankings = List(trait = Instance(LineUpRanking), default_value = []).tag(sync=True)
   selections = List([]).tag(sync=True)
 
   @default('layout')
   def _default_layout(self):
-    return widgets.Layout(height='400px', align_self='stretch')
+    return Layout(height='400px', align_self='stretch')
 

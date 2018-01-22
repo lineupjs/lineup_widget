@@ -149,3 +149,4 @@ lineup_widget/nbextension/static/index.*
 # -------------
 **/coverage/
 
+/lineup_widget/labextension/*.tgz
