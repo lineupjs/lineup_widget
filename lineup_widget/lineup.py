@@ -40,12 +40,20 @@ class LineUpWidget(DOMWidget):
                                     sidePanel='collapsed', summaryHeader=True
                                     )).tag(sync=True)
   rankings = List(trait=Instance(LineUpRanking), default_value=[]).tag(sync=True)
-  selection = List(trait=Int(), default_value=[]).tag(sync=True)
+  value = List(trait=Int(), default_value=[]).tag(sync=True)
 
   def __init__(self, data=None, **kwargs):
     super().__init__(**kwargs)
     if data:
       self.data = data
+
+  @property
+  def selection(self):
+    return self.value
+
+  @selection.setter
+  def selection(self, value):
+    self.value = value
 
   @property
   def data(self):
@@ -76,4 +84,4 @@ class LineUpWidget(DOMWidget):
     return Layout(height='400px', align_self='stretch')
 
   def on_selection_changed(self, callback):
-    self.observe(lambda evt: callback(evt.new), 'selection')
+    self.observe(lambda evt: callback(evt.new), 'value')
