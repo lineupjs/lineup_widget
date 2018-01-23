@@ -42,9 +42,13 @@ export class LineUpView extends DOMWidgetView {
     this.data = this.createData();
     this.model.on('change:_data', this.dataChanged, this);
 
-    this.data.setSelection(<number[]>this.model.get('value'));
-    this.model.on('change:value', this.selectionChanged, this);
-    this.data.on('selectionChanged', (_: any, selection: number[]) => this.model.set('value', selection));
+    this.data.setSelection(<number[]>this.model.get('selection'));
+    this.model.on('change:selection', this.selectionChanged, this);
+    this.model.on('change:value', this.valueChanged, this);
+    this.data.on('selectionChanged', (selection: number[]) => {
+      this.model.set('value', selection.length === 0 ? -1 : selection[0]);
+      this.model.set('selection', selection)
+    });
 
     this.createRankings();
 
@@ -99,5 +103,14 @@ export class LineUpView extends DOMWidgetView {
 
   private selectionChanged() {
     this.data.setSelection(<number[]>this.model.get('selection'));
+  }
+
+  private valueChanged() {
+    const v = <number>this.model.get('value');
+    if (v < 0) {
+      this.data.clearSelection();
+    } else {
+      this.data.setSelection([v]);
+    }
   }
 }

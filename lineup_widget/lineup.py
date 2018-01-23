@@ -9,17 +9,11 @@ TODO: Add module docstring
 """
 
 from ipywidgets import DOMWidget, Layout
-from traitlets import default, Unicode, List, Dict, Bool, Instance, HasTraits, Enum, Union, Int
+from traitlets import default, Unicode, List, Dict, Bool, HasTraits, Enum, Union, Int
 import pandas as pd
 
 module_name = "lineup_widget"
 module_version = "0.1.0"
-
-
-class LineUpRanking(HasTraits):
-  columns = List(trait=Union((Unicode(), Dict())), default_value=['_*', '*']).tag(sync=True)
-  sort_by = List(trait=Unicode(), default_value=[]).tag(sync=True)
-  group_by = List(trait=Unicode(), default_value=[]).tag(sync=True)
 
 
 class LineUpWidget(DOMWidget):
@@ -39,21 +33,20 @@ class LineUpWidget(DOMWidget):
                  default_value=dict(filterGlobally=True, singleSelection=False, noCriteriaLimits=False, animated=True,
                                     sidePanel='collapsed', summaryHeader=True
                                     )).tag(sync=True)
-  rankings = List(trait=Instance(LineUpRanking), default_value=[]).tag(sync=True)
-  value = List(trait=Int(), default_value=[]).tag(sync=True)
+  rankings = List(trait=Dict(traits=dict(columns=List(trait=Union((Unicode(), Dict()))), sort_by=List(trait=Unicode()),
+                                         group_by=List(trait=Unicode())),
+                             default_value=dict(columns=['_*', '*'], sort_by=[], group_by=[])), default_value=[]).tag(
+    sync=True)
+  selection = List(trait=Int(), default_value=[]).tag(sync=True)
+  value = Int(-1).tag(sync=True)
 
   def __init__(self, data=None, **kwargs):
     super().__init__(**kwargs)
-    if data:
+    if data is not None:
       self.data = data
 
-  @property
-  def selection(self):
-    return self.value
-
-  @selection.setter
-  def selection(self, value):
-    self.value = value
+  def add_ranking(columns=['_*', '*'], sort_by=[], group_by=[]):
+    self.rankings.append(dict(column=column,sort_by=sort_by, group_by=group_by))
 
   @property
   def data(self):
@@ -84,4 +77,7 @@ class LineUpWidget(DOMWidget):
     return Layout(height='400px', align_self='stretch')
 
   def on_selection_changed(self, callback):
+    self.observe(lambda evt: callback(evt.new), 'selection')
+
+  def on_value_changed(self, callback):
     self.observe(lambda evt: callback(evt.new), 'value')
