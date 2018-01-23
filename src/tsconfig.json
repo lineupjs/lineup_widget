@@ -4,9 +4,9 @@
     "noImplicitAny": true,
     "lib": [
       "dom",
-      "es5",
-      "es2015.promise",
-      "es2015.iterable"
+      "es2015",
+      "es2016.array.include",
+      "es2017.object"
     ],
     "noEmitOnError": true,
     "strictNullChecks": true,

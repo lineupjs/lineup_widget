@@ -53,7 +53,7 @@ class LineUpWidget(DOMWidget):
     def to_desc(d):
       col = value[d]
       name = str(col.dtype)
-      base = dict(type='string',column=d)
+      base = dict(type='string', column=d)
       if name.startswith('int') or name.startswith('float'):
         base['type'] = 'number'
         base['domain'] = [col.min(), col.max()]
@@ -66,8 +66,9 @@ class LineUpWidget(DOMWidget):
 
     self._columns = [to_desc(col) for col in value]
 
-
-
   @default('layout')
   def _default_layout(self):
     return Layout(height='400px', align_self='stretch')
+
+  def on_selection_changed(callback):
+    self.observe(lambda evt: callback(evt.new), 'selection')

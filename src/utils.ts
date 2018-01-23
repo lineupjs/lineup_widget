@@ -1,13 +1,13 @@
 
-import {IColumnDesc, buildRanking} from 'lineupjs';
+import {IColumnDesc, buildRanking, LocalDataProvider, Ranking} from 'lineupjs';
 
-interface ILineUpRanking {
+export interface ILineUpRanking {
   groupBy: string[];
   sortBy: string[];
-  columns: (string | IColumnDesc)[];
+  columns: string[];
 }
 
-export function pushRanking(data: LocalDataProvider, ranking: ILineUpRanking) {
+export function pushRanking(data: LocalDataProvider, ranking: ILineUpRanking): Ranking {
   const r = buildRanking();
   ranking.columns.forEach((col) => r.column(col));
   ranking.sortBy.forEach((s) => r.sortBy(s));
