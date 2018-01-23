@@ -42,13 +42,13 @@
   },
   "dependencies": {
     "@jupyter-widgets/base": "^1.0.1",
-    "css-loader": "^0.28.9",
     "lineupjs": "^3.0.0-alpha2",
-    "style-loader": "^0.19.1"
   },
   "devDependencies": {
     "@phosphor/application": "^1.5.0",
     "@phosphor/widgets": "^1.5.0",
+    "css-loader": "^0.28.9",
+    "style-loader": "^0.19.1"
     "@types/expect.js": "^0.3.29",
     "@types/mocha": "^2.2.41",
     "@types/node": "^8.0.17",
