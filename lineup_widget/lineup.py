@@ -18,8 +18,8 @@ module_version = "0.1.0"
 
 class LineUpRanking(HasTraits):
   columns = List(trait=Union((Unicode(), Dict())), default_value=['_*', '*']).tag(sync=True)
-  sortBy = List(trait=Unicode(), default_value=[]).tag(sync=True)
-  groupBy = List(trait=Unicode(), default_value=[]).tag(sync=True)
+  sort_by = List(trait=Unicode(), default_value=[]).tag(sync=True)
+  group_by = List(trait=Unicode(), default_value=[]).tag(sync=True)
 
 
 class LineUpWidget(DOMWidget):
@@ -41,6 +41,11 @@ class LineUpWidget(DOMWidget):
                                     )).tag(sync=True)
   rankings = List(trait=Instance(LineUpRanking), default_value=[]).tag(sync=True)
   selection = List(trait=Int(), default_value=[]).tag(sync=True)
+
+  def __init__(self, data=None, **kwargs):
+    super().__init__(**kwargs)
+    if data:
+      self.data = data
 
   @property
   def data(self):

@@ -2,15 +2,15 @@
 import {IColumnDesc, buildRanking, LocalDataProvider, Ranking} from 'lineupjs';
 
 export interface ILineUpRanking {
-  groupBy: string[];
-  sortBy: string[];
+  group_by: string[];
+  sort_by: string[];
   columns: string[];
 }
 
 export function pushRanking(data: LocalDataProvider, ranking: ILineUpRanking): Ranking {
   const r = buildRanking();
   ranking.columns.forEach((col) => r.column(col));
-  ranking.sortBy.forEach((s) => r.sortBy(s));
-  ranking.groupBy.forEach((s) => r.groupBy(s));
+  ranking.sort_by.forEach((s) => r.sortBy(s));
+  ranking.group_by.forEach((s) => r.groupBy(s));
   return r.build(data);
 }
