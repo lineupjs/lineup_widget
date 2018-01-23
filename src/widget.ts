@@ -2,8 +2,9 @@
 // Distributed under the terms of the MIT License.
 
 import {DOMWidgetModel, DOMWidgetView} from '@jupyter-widgets/base';
-
 import {JUPYTER_EXTENSION_VERSION} from './version';
+import {builder, LineUp, LocalDataProvider, deriveColors} from 'lineupjs';
+import {pushRanking, toCols} from './utils';
 
 export class LineUpModel extends DOMWidgetModel {
   defaults() {
@@ -32,18 +33,59 @@ export class LineUpModel extends DOMWidgetModel {
   static view_module_version = JUPYTER_EXTENSION_VERSION;
 }
 
-
 export class LineUpView extends DOMWidgetView {
+  private lineup: LineUp;
+  private data: LocalDataProvider;
+
   render() {
-    this.data_changed();
-    this.model.on('change:data', this.data_changed, this);
+    this.data = this.createData();
+    this.model.on('change:_data', this.dataChanged, this);
+
+    this.data.setSelection(<number[]>this.model.get('selection'));
+    this.model.on('change:selection', this.selectionChanged, this);
+    this.data.on('selectionChanged', (_, selection) => this.model.set('selection', selection));
+
+    const rankings = <ILineUpRanking[]>this.model.get('rankings');
+    if (rankings.length === 0) {
+      this.data.deriveDefault();
+    } else {
+      rankings.forEach((ranking) => pushRanking(data, ranking));
+    }
+
+    this.lineup = this.createLineUp();
   }
 
-  data_changed() {
-    console.log(this.model);
-    this.el.textContent = this.model.get('data');
-    console.log(this.model.get('options'));
-    console.log(this.model.get('selections'));
-    console.log(this.model.get('rankings'));
+  private createLineUp() {
+    const options = this.model.get('options');
+
+    return new LineUp(this.el, this.data, {
+      animated: options.animated,
+      panel: options.sidePanel !== false,
+      panelCollapsed: options.sidePanel === 'collapsed',
+      sumamryHeader: options.summaryHeader
+    });
+  }
+
+  private createData() {
+    const options = this.model.get('options');
+    const rows = this.model.get('_data');
+    const columns = this.model.get('_columns');
+
+    return new LineUpJS.LocalDataProvider(rows, deriveColors(columns), {
+      filterGlobally: options.filterGlobally,
+      multiSelection: !options.singleSelection,
+      maxGroupColumns: options.noCriteriaLimits ? Infinity : 1,
+      maxNestedSortingCriteria: options.noCriteriaLimits ? Infinity : 1
+    });
+  }
+
+  private dataChanged() {
+    this.data.clearColumns();
+    this.toCols(x.colnames, x.cols).forEach((desc) => data.pushDesc(desc));
+    this.data.setData(rows);
+  }
+
+  private selectionChanged() {
+    this.data.setSelection(<number[]>this.mode.get('selection'));
   }
 }
