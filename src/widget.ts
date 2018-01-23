@@ -40,6 +40,7 @@ export class LineUpView extends DOMWidgetView {
   }
 
   data_changed() {
+    console.log(this.model);
     this.el.textContent = this.model.get('data');
     console.log(this.model.get('options'));
     console.log(this.model.get('selections'));

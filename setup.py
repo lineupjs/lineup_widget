@@ -2,19 +2,19 @@
 # coding: utf-8
 
 # Copyright (c) Jupyter Development Team.
-# Distributed under the terms of the MIT License.
+# Distributed under the terms of the Modified BSD License.
 
 from __future__ import print_function
-
 from glob import glob
 from os.path import join as pjoin
-from setuptools import setup
 
 from setupbase import (
   create_cmdclass, install_npm, ensure_targets,
   find_packages, combine_commands, ensure_python,
   get_version, HERE
 )
+
+from setuptools import setup
 
 # The name of the project
 name = 'lineup_widget'
@@ -26,7 +26,7 @@ ensure_python('>=3.3')
 version = get_version(pjoin(name, '_version.py'))
 
 nb_path = pjoin(HERE, name, 'nbextension', 'static')
-lab_path = pjoin(HERE, name, 'labextension', '*.tgz')
+lab_path = pjoin(HERE, name, 'labextension')
 
 # Representative files that should exist after a successful build
 jstargets = [
@@ -43,9 +43,9 @@ package_data_spec = {
 
 data_files_spec = [
   ('share/jupyter/nbextensions/lineup_widget',
-   pjoin(nb_path, '*.js*')),
-  ('share/jupyter/lab/extensions', lab_path),
-  ('etc/jupyter/nbconfig/notebook.d/', 'lineup_widget.json')
+   nb_path, '*.js*'),
+  ('share/jupyter/lab/extensions', lab_path, '*.tgz'),
+  ('etc/jupyter/nbconfig/notebook.d', HERE, 'lineup_widget.json')
 ]
 
 cmdclass = create_cmdclass('jsdeps', package_data_spec=package_data_spec,
@@ -89,7 +89,7 @@ setup_args = dict(
       'pytest-cov',
       'nbval',
     ],
-    'lineups': [
+    'examples': [
       # Any requirements for the lineUps to run
     ],
   },

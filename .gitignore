@@ -144,9 +144,11 @@ $RECYCLE.BIN/
 
 **/node_modules/
 lineup_widget/nbextension/static/index.*
+lineup_widget/labextension/*.tgz
 
 # Coverage data
 # -------------
 **/coverage/
 
-/lineup_widget/labextension/*.tgz
+# Packed lab extensions
+lineup_widget/labextension

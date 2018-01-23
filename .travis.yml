@@ -14,8 +14,7 @@ matrix:
 cache:
   pip: true
   directories:
-    - lineup_widget/jlextension/node_modules # NPM packages
-    - ts/node_modules # NPM packages
+    - node_modules # NPM packages
     - $HOME/.npm
 before_install:
   - pip install -U pip setuptools
