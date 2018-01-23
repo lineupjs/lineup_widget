@@ -1,7 +1,8 @@
 var loaders = [
   {test: /\.ts$/, loader: 'ts-loader'},
   {test: /\.json$/, loader: 'json-loader'},
-  {test: /\.js$/, loader: "source-map-loader"},
+  { test: /\.css$/, loader: 'style-loader!css-loader' },
+  {test: /\.js$/, loader: 'source-map-loader'},
 ];
 
 module.exports = {

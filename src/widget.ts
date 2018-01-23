@@ -5,6 +5,7 @@ import {DOMWidgetModel, DOMWidgetView} from '@jupyter-widgets/base';
 import {JUPYTER_EXTENSION_VERSION} from './version';
 import {builder, LineUp, LocalDataProvider, createLineUp, createLocalDataProvider, deriveColors, IColumnDesc} from 'lineupjs';
 import {pushRanking, ILineUpRanking} from './utils';
+import 'lineupjs/build/LineUpJS.css';
 
 export class LineUpModel extends DOMWidgetModel {
   defaults() {

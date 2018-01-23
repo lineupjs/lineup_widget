@@ -59,7 +59,7 @@ class LineUpWidget(DOMWidget):
         base['domain'] = [col.min(), col.max()]
       elif name == 'bool':
         base['type'] = 'boolean'
-      elif name == 'category'
+      elif name == 'category':
         base['type'] = 'categorical'
         base['categories'] = col.cat.categories
       return base
