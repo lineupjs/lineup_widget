@@ -17,7 +17,7 @@ jupyter nbextension enable --py lineup_widget
 Or, if you use jupyterlab:
 
 ```bash
-pip install -e git+https://github.com/sgratzl/lineup_widget.git#egg=lineup_widget
+pip install -e git+https://github.com/sgratzl/lineup_widget.git@develop#egg=lineup_widget
 jupyter labextension install @jupyter-widgets/jupyterlab-manager
 ```
 
