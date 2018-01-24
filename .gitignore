@@ -144,6 +144,9 @@ $RECYCLE.BIN/
 
 **/node_modules/
 lineup_widget/nbextension/static/index.*
+lineup_widget/nbextension/static/*.ttf
+lineup_widget/nbextension/static/*.eot
+lineup_widget/nbextension/static/*.svg
 lineup_widget/labextension/*.tgz
 
 # Coverage data
