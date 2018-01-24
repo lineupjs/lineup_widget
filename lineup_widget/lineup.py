@@ -16,7 +16,7 @@ module_name = "lineup_widget"
 module_version = "0.1.0"
 
 
-class LineUpWidget(DOMWidget, ValueWidget):
+class LineUpWidget(ValueWidget, DOMWidget):
   """TODO: Add docstring here
   """
   _model_name = Unicode('LineUpModel').tag(sync=True)
@@ -41,16 +41,9 @@ class LineUpWidget(DOMWidget, ValueWidget):
   value = List(trait=Int(), default_value=[]).tag(sync=True)
 
   def __init__(self, data=None, **kwargs):
-    super().__init__(**kwargs)
+    super(LineUpWidget, self).__init__(**kwargs)
     if data is not None:
       self.data = data
-
-  def get_interact_value(self):
-    """Return the value for this widget which should be passed to
-    interactive functions. Custom widgets can change this method
-    to process the raw value ``self.value``.
-    """
-    return self.value
 
   def add_ranking(self, columns=['_*', '*'], sort_by=[], group_by=[]):
     self.rankings = self.rankings + [dict(columns=columns, sort_by=sort_by, group_by=group_by)]

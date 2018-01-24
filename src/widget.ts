@@ -45,7 +45,8 @@ export class LineUpView extends DOMWidgetView {
     this.data.setSelection(<number[]>this.model.get('value'));
     this.model.on('change:value', this.selectionChanged, this);
     this.data.on('selectionChanged', (selection: number[]) => {
-      this.model.set('value', selection);
+      this.model.set('value', selection, {updated_view: this});
+      this.touch();
     });
 
     this.createRankings();
