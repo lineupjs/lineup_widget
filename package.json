@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@jupyter-widgets/base": "^1.0.1",
-    "lineupjs": "^3.0.0-alpha2"
+    "lineupjs": "^3.0.0-beta.1"
   },
   "devDependencies": {
     "@phosphor/application": "^1.5.0",

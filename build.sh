@@ -3,7 +3,7 @@ set -e
 
 python setup.py build
 pip install -e .
-jupyter nbextension enable --py [--sys-prefix|--user|--system] lineup_widget
+jupyter nbextension enable --py lineup_widget
 
 
 jupyter notebook
