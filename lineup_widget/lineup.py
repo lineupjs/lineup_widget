@@ -12,27 +12,24 @@ from ipywidgets import DOMWidget, Layout, ValueWidget
 from traitlets import default, Unicode, List, Dict, Bool, HasTraits, Enum, Union, Int
 import pandas as pd
 
-module_name = "lineup_widget"
-module_version = "0.1.0"
+module_name = 'lineup_widget'
+module_version = '0.1.0'
 
 
-class LineUpWidget(ValueWidget, DOMWidget):
-  """TODO: Add docstring here
-  """
-  _model_name = Unicode('LineUpModel').tag(sync=True)
+class ALineUpWidget(ValueWidget, DOMWidget):
   _model_module = Unicode(module_name).tag(sync=True)
   _model_module_version = Unicode(module_version).tag(sync=True)
-  _view_name = Unicode('LineUpView').tag(sync=True)
   _view_module = Unicode(module_name).tag(sync=True)
   _view_module_version = Unicode(module_version).tag(sync=True)
 
-  description = Unicode('', help="LineUp").tag(sync=True)
   _data = List(trait=Dict(), default_value=[]).tag(sync=True)
   _columns = List(trait=Dict(), default_value=[]).tag(sync=True)
   options = Dict(traits=dict(filterGlobally=Bool(), singleSelection=Bool(), noCriteriaLimits=Bool(), animated=Bool(),
-                             sidePanel=Enum((True, False, 'collapsed')), summaryHeader=Bool()),
+                             sidePanel=Enum((True, False, 'collapsed')), summaryHeader=Bool(), overviewMode=Bool(),
+                             expandLineOnHover=Bool(), defaultSlopeGraphMode=Enum(('item', 'band'))),
                  default_value=dict(filterGlobally=True, singleSelection=False, noCriteriaLimits=False, animated=True,
-                                    sidePanel='collapsed', summaryHeader=True
+                                    sidePanel='collapsed', summaryHeader=True, overviewMode=False,
+                                    expandLineOnHover=False, defaultSlopeGraphMode='item'
                                     )).tag(sync=True)
   rankings = List(trait=Dict(traits=dict(columns=List(trait=Union((Unicode(), Dict()))), sort_by=List(trait=Unicode()),
                                          group_by=List(trait=Unicode())),
@@ -41,7 +38,7 @@ class LineUpWidget(ValueWidget, DOMWidget):
   value = List(trait=Int(), default_value=[]).tag(sync=True)
 
   def __init__(self, data=None, **kwargs):
-    super(LineUpWidget, self).__init__(**kwargs)
+    super(ALineUpWidget, self).__init__(**kwargs)
     if data is not None:
       self.data = data
 
@@ -86,3 +83,19 @@ class LineUpWidget(ValueWidget, DOMWidget):
 
   def on_selection_changed(self, callback):
     self.observe(lambda evt: callback(evt.new), 'value')
+
+
+class LineUpWidget(ALineUpWidget):
+  """builds a LineUp widget wrapper
+  """
+  _model_name = Unicode('LineUpModel').tag(sync=True)
+  _view_name = Unicode('LineUpView').tag(sync=True)
+  description = Unicode('', help="LineUp").tag(sync=True)
+
+
+class TaggleWidget(ALineUpWidget):
+  """builds a Taggle widget wrapper
+  """
+  _model_name = Unicode('TaggleModel').tag(sync=True)
+  _view_name = Unicode('TaggleView').tag(sync=True)
+  description = Unicode('', help="Taggle").tag(sync=True)

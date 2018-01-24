@@ -1,5 +1,4 @@
-
-import {IColumnDesc, buildRanking, LocalDataProvider, Ranking} from 'lineupjs';
+import {buildRanking, LocalDataProvider, Ranking} from 'lineupjs';
 
 export interface ILineUpRanking {
   group_by: string[];

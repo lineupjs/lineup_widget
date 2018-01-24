@@ -5,7 +5,7 @@ import {IJupyterWidgetRegistry} from '@jupyter-widgets/base';
 import {Application, IPlugin} from '@phosphor/application';
 import {Widget} from '@phosphor/widgets';
 import {JUPYTER_EXTENSION_VERSION} from './version';
-import {LineUpModel, LineUpView} from './widget';
+import {LineUpModel, LineUpView, TaggleModel, TaggleView} from './widget';
 
 
 const EXTENSION_ID = 'jupyter.extensions.lineup';
@@ -32,7 +32,9 @@ function activateWidgetExtension(app: Application<Widget>, registry: IJupyterWid
     version: JUPYTER_EXTENSION_VERSION,
     exports: {
       LineUpModel,
-      LineUpView
+      LineUpView,
+      TaggleModel,
+      TaggleView
     }
   });
 }

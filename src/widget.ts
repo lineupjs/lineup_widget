@@ -2,10 +2,10 @@
 // Distributed under the terms of the MIT License.
 
 import {DOMWidgetModel, DOMWidgetView} from '@jupyter-widgets/base';
-import {JUPYTER_EXTENSION_VERSION} from './version';
-import {builder, LineUp, LocalDataProvider, createLineUp, createLocalDataProvider, deriveColors, IColumnDesc} from 'lineupjs';
-import {pushRanking, ILineUpRanking} from './utils';
+import {deriveColors, IColumnDesc, ITaggleOptions, LineUp, Taggle, LocalDataProvider} from 'lineupjs';
 import 'lineupjs/build/LineUpJS.css';
+import {ILineUpRanking, pushRanking} from './utils';
+import {JUPYTER_EXTENSION_VERSION} from './version';
 
 export class LineUpModel extends DOMWidgetModel {
   defaults() {
@@ -34,9 +34,37 @@ export class LineUpModel extends DOMWidgetModel {
   static view_module_version = JUPYTER_EXTENSION_VERSION;
 }
 
-export class LineUpView extends DOMWidgetView {
-  private lineup: LineUp;
-  private data: LocalDataProvider;
+
+export class TaggleModel extends DOMWidgetModel {
+  defaults() {
+    return {
+      ...super.defaults(),
+      _model_name: TaggleModel.model_name,
+      _model_module: TaggleModel.model_module,
+      _model_module_version: TaggleModel.model_module_version,
+      _view_name: TaggleModel.view_name,
+      _view_module: TaggleModel.view_module,
+      _view_module_version: TaggleModel.view_module_version,
+      data: []
+    };
+  }
+
+  static serializers = {
+    ...DOMWidgetModel.serializers,
+    // Add any extra serializers here
+  };
+
+  static model_name = 'TaggleModel';
+  static model_module = LineUpModel.model_module;
+  static model_module_version = JUPYTER_EXTENSION_VERSION;
+  static view_name = 'TaggleView';  // Set to null if no view
+  static view_module = LineUpModel.view_module;   // Set to null if no view
+  static view_module_version = JUPYTER_EXTENSION_VERSION;
+}
+
+export abstract class ALineUpView extends DOMWidgetView {
+  private lineup: LineUp | Taggle;
+  protected data: LocalDataProvider;
 
   render() {
     this.data = this.createData();
@@ -51,19 +79,14 @@ export class LineUpView extends DOMWidgetView {
 
     this.createRankings();
 
-    this.lineup = this.createLineUp();
-  }
-
-  private createLineUp() {
     const options = this.model.get('options');
-
-    return new LineUp(this.el, this.data, {
-      animation: options.animated,
+    this.lineup = this.createLineUp(Object.assign({}, options, {
       panel: options.sidePanel !== false,
-      panelCollapsed: options.sidePanel === 'collapsed',
-      summary: options.summaryHeader
-    });
+      panelCollapsed: options.sidePanel === 'collapsed'
+    }));
   }
+
+  protected abstract createLineUp(options: Partial<ITaggleOptions>): LineUp | Taggle;
 
   private createData() {
     const options = this.model.get('options');
@@ -102,5 +125,19 @@ export class LineUpView extends DOMWidgetView {
 
   private selectionChanged() {
     this.data.setSelection(<number[]>this.model.get('value'));
+  }
+}
+
+export class LineUpView extends ALineUpView {
+
+  protected createLineUp(options: Partial<ITaggleOptions>) {
+    return new LineUp(this.el, this.data, options);
+  }
+}
+
+export class TaggleView extends ALineUpView {
+
+  protected createLineUp(options: Partial<ITaggleOptions>) {
+    return new Taggle(this.el, this.data, options);
   }
 }
