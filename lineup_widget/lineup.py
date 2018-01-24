@@ -8,7 +8,7 @@
 TODO: Add module docstring
 """
 
-from ipywidgets import DOMWidget, Layout
+from ipywidgets import DOMWidget, Layout, ValueWidget
 from traitlets import default, Unicode, List, Dict, Bool, HasTraits, Enum, Union, Int
 import pandas as pd
 
@@ -16,7 +16,7 @@ module_name = "lineup_widget"
 module_version = "0.1.0"
 
 
-class LineUpWidget(DOMWidget):
+class LineUpWidget(DOMWidget, ValueWidget):
   """TODO: Add docstring here
   """
   _model_name = Unicode('LineUpModel').tag(sync=True)
@@ -26,6 +26,7 @@ class LineUpWidget(DOMWidget):
   _view_module = Unicode(module_name).tag(sync=True)
   _view_module_version = Unicode(module_version).tag(sync=True)
 
+  description = Unicode('', help="LineUp").tag(sync=True)
   _data = List(trait=Dict(), default_value=[]).tag(sync=True)
   _columns = List(trait=Dict(), default_value=[]).tag(sync=True)
   options = Dict(traits=dict(filterGlobally=Bool(), singleSelection=Bool(), noCriteriaLimits=Bool(), animated=Bool(),
@@ -37,16 +38,30 @@ class LineUpWidget(DOMWidget):
                                          group_by=List(trait=Unicode())),
                              default_value=dict(columns=['_*', '*'], sort_by=[], group_by=[])), default_value=[]).tag(
     sync=True)
-  selection = List(trait=Int(), default_value=[]).tag(sync=True)
-  value = Int(-1).tag(sync=True)
+  value = List(trait=Int(), default_value=[]).tag(sync=True)
 
   def __init__(self, data=None, **kwargs):
     super().__init__(**kwargs)
     if data is not None:
       self.data = data
 
-  def add_ranking(columns=['_*', '*'], sort_by=[], group_by=[]):
-    self.rankings.append(dict(column=column,sort_by=sort_by, group_by=group_by))
+  def get_interact_value(self):
+    """Return the value for this widget which should be passed to
+    interactive functions. Custom widgets can change this method
+    to process the raw value ``self.value``.
+    """
+    return self.value
+
+  def add_ranking(self, columns=['_*', '*'], sort_by=[], group_by=[]):
+    self.rankings = self.rankings + [dict(columns=columns, sort_by=sort_by, group_by=group_by)]
+
+  @property
+  def selection(self):
+    return self.value
+
+  @selection.setter
+  def selection(self, value):
+    self.value = value
 
   @property
   def data(self):
@@ -77,7 +92,4 @@ class LineUpWidget(DOMWidget):
     return Layout(height='400px', align_self='stretch')
 
   def on_selection_changed(self, callback):
-    self.observe(lambda evt: callback(evt.new), 'selection')
-
-  def on_value_changed(self, callback):
     self.observe(lambda evt: callback(evt.new), 'value')
