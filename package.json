@@ -8,9 +8,9 @@
     "jupyterlab extension",
     "widgets"
   ],
-  "homepage": "https://github.com/sgratzl/lineup_widget",
+  "homepage": "https://github.com/datavisyn/lineup_widget",
   "bugs": {
-    "url": "https://github.com/sgratzl/lineup_widget/issues"
+    "url": "https://github.com/datavisyn/lineup_widget/issues"
   },
   "license": "MIT",
   "author": "",
@@ -18,7 +18,7 @@
   "types": "./lib/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sgratzl/lineup_widget"
+    "url": "https://github.com/datavisyn/lineup_widget"
   },
   "scripts": {
     "build": "npm run build:lib && npm run build:nbextension",
