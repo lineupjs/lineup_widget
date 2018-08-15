@@ -4,6 +4,7 @@ from setuptools.command.sdist import sdist
 from setuptools.command.build_py import build_py
 from setuptools.command.egg_info import egg_info
 from subprocess import check_call
+from distutils import log
 import os
 import sys
 import platform
@@ -14,15 +15,13 @@ is_repo = os.path.exists(os.path.join(here, '.git'))
 
 npm_path = os.pathsep.join([
     os.path.join(node_root, 'node_modules', '.bin'),
-                os.environ.get('PATH', os.defpath),
+    os.environ.get('PATH', os.defpath),
 ])
 
-from distutils import log
 log.set_verbosity(log.DEBUG)
 log.info('setup.py entered')
 log.info('$PATH=%s' % os.environ['PATH'])
 
-LONG_DESCRIPTION = 'A Custom Jupyter Widget Library'
 
 def js_prerelease(command, strict=False):
     """decorator for building minified js/css prior to another command"""
@@ -49,6 +48,7 @@ def js_prerelease(command, strict=False):
             command.run(self)
             update_package_data(self.distribution)
     return DecoratedCommand
+
 
 def update_package_data(distribution):
     """update package_data to catch changes during setup"""
@@ -77,16 +77,16 @@ class NPM(Command):
         pass
 
     def get_npm_name(self):
-        npmName = 'npm';
+        npm_name = 'npm'
         if platform.system() == 'Windows':
-            npmName = 'npm.cmd';
+            npm_name = 'npm.cmd'
             
-        return npmName;
+        return npm_name
     
     def has_npm(self):
-        npmName = self.get_npm_name();
+        npm_name = self.get_npm_name()
         try:
-            check_call([npmName, '--version'])
+            check_call([npm_name, '--version'])
             return True
         except:
             return False
@@ -106,8 +106,8 @@ class NPM(Command):
 
         if self.should_run_npm_install():
             log.info("Installing build dependencies with npm.  This may take a while...")
-            npmName = self.get_npm_name();
-            check_call([npmName, 'install'], cwd=node_root, stdout=sys.stdout, stderr=sys.stderr)
+            npm_name = self.get_npm_name()
+            check_call([npm_name, 'install'], cwd=node_root, stdout=sys.stdout, stderr=sys.stderr)
             os.utime(self.node_modules, None)
 
         for t in self.targets:
@@ -120,6 +120,7 @@ class NPM(Command):
         # update package data in case this created new files
         update_package_data(self.distribution)
 
+
 version_ns = {}
 with open(os.path.join(here, 'lineup_widget', '_version.py')) as f:
     exec(f.read(), {}, version_ns)
@@ -127,8 +128,7 @@ with open(os.path.join(here, 'lineup_widget', '_version.py')) as f:
 setup_args = {
     'name': 'lineup_widget',
     'version': version_ns['__version__'],
-    'description': 'A Custom Jupyter Widget Library',
-    'long_description': LONG_DESCRIPTION,
+    'description': 'Wrapper around the LineUp.js library for multi attribute rankings',
     'include_package_data': True,
     'data_files': [
         ('share/jupyter/nbextensions/lineup_widget', [
@@ -136,10 +136,11 @@ setup_args = {
             'lineup_widget/static/index.js',
             'lineup_widget/static/index.js.map',
         ],),
-        ('etc/jupyter/nbconfig/notebook.d/' ,['lineup_widget.json'])
+        ('etc/jupyter/nbconfig/notebook.d/', ['lineup_widget.json'])
     ],
     'install_requires': [
         'ipywidgets>=7.0.0',
+        'pandas>=0.18.0'
     ],
     'packages': find_packages(),
     'zip_safe': False,
@@ -153,16 +154,21 @@ setup_args = {
     'author': 'Samuel Gratzl',
     'author_email': 'samuel-gratzl@gmx.at',
     'url': 'https://github.com/datavisyn/lineup_widget',
+    'license': 'MIT',
     'keywords': [
         'ipython',
         'jupyter',
         'widgets',
+        'lineup',
+        'ranking'
     ],
+    'platforms': 'Linux, Mac OS X, Windows',
     'classifiers': [
         'Development Status :: 4 - Beta',
-        'Framework :: IPython',
+        'Framework :: Jupyter',
         'Intended Audience :: Developers',
         'Intended Audience :: Science/Research',
+        'License :: OSI Approved :: MIT License',
         'Topic :: Multimedia :: Graphics',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
