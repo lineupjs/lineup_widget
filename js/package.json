@@ -31,7 +31,7 @@
     "url": "https://github.com/datavisyn/lineup_widget"
   },
   "scripts": {
-    "clean": "rimraf dist ../lineup_widget/static",
+    "clean": "rimraf dist ../lineup_widget/static lib/*.d.ts lib/embed.js lib/index.js lib/labplugin.js lib/utils.js",
     "precompile": "npm run clean",
     "compile": "tsc --project .",
     "prebuild": "npm run compile",
