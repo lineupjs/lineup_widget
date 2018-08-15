@@ -128,10 +128,15 @@ version_ns = {}
 with open(os.path.join(here, 'lineup_widget', '_version.py')) as f:
   exec(f.read(), {}, version_ns)
 
+with open('README.md') as f:
+  long_description = f.read()
+
 setup_args = {
   'name': 'lineup_widget',
   'version': version_ns['__version__'],
   'description': 'Wrapper around the LineUp.js library for multi attribute rankings',
+  'long_description': long_description,
+  'long_description_content_type': 'text/markdown',
   'include_package_data': True,
   'data_files': [
     ('share/jupyter/nbextensions/lineup_widget', glob('lineup_widget/static/*.*')),
