@@ -3,7 +3,7 @@
 
 import {DOMWidgetModel, DOMWidgetView} from '@jupyter-widgets/base';
 import {deriveColors, IColumnDesc, ITaggleOptions, LineUp, Taggle, LocalDataProvider} from 'lineupjs';
-import 'lineupjs/build/LineUpJS.css';
+import './style.css';
 import {ILineUpRanking, pushRanking} from './utils';
 import {JUPYTER_EXTENSION_VERSION} from './version';
 

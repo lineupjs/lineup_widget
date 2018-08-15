@@ -74,7 +74,7 @@ class ALineUpWidget(ValueWidget, DOMWidget):
 
   @default('layout')
   def _default_layout(self):
-    return Layout(height='400px', align_self='stretch')
+    return Layout(height='600px', align_self='stretch')
 
   def on_selection_changed(self, callback):
     self.observe(lambda evt: callback(evt.new), 'value')
