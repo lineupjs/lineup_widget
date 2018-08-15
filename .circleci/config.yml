@@ -85,7 +85,7 @@ jobs:
           name: build
           command: |
             . venv/bin/activate
-            python setup.py sdist bdist_wheel
+            python setup.py sdist bdist-wheel
 
 
 workflows:
