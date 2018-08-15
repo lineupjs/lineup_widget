@@ -64,6 +64,12 @@ interact(selection_changed, selection=lineup_widget.LineUpWidget(df));
 
 ![interact example](https://user-images.githubusercontent.com/4129778/35321846-6c5b07cc-00e8-11e8-9388-0acb65cbb509.png)
 
+**Hint**: 
+
+In case you see scrollbars in each cell it is because of the font the cells are too narrow, you can specify a larger row height using
+```python
+w = lineup_widget.LineUpWidget(df, options=dict(rowHeight=20))
+```
 
 Release Package
 ---------------
