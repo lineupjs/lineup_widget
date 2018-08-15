@@ -5,6 +5,7 @@ from setuptools.command.build_py import build_py
 from setuptools.command.egg_info import egg_info
 from subprocess import check_call
 from distutils import log
+from glob import glob
 import os
 import sys
 import platform
@@ -69,10 +70,7 @@ class NPM(Command):
 
   targets = [
     os.path.join(here, 'lineup_widget', 'static', 'extension.js'),
-    os.path.join(here, 'lineup_widget', 'static', 'index.js'),
-    os.path.join(here, 'lineup_widget', 'static', '*.ttf'),
-    os.path.join(here, 'lineup_widget', 'static', '*.eot'),
-    os.path.join(here, 'lineup_widget', 'static', '*.svg')
+    os.path.join(here, 'lineup_widget', 'static', 'index.js')
   ]
 
   def initialize_options(self):
@@ -136,11 +134,7 @@ setup_args = {
   'description': 'Wrapper around the LineUp.js library for multi attribute rankings',
   'include_package_data': True,
   'data_files': [
-    ('share/jupyter/nbextensions/lineup_widget', [
-      'lineup_widget/static/extension.js',
-      'lineup_widget/static/index.js',
-      'lineup_widget/static/index.js.map',
-    ],),
+    ('share/jupyter/nbextensions/lineup_widget', glob('lineup_widget/static/*.*')),
     ('etc/jupyter/nbconfig/notebook.d/', ['lineup_widget.json'])
   ],
   'install_requires': [
