@@ -1,3 +1,6 @@
+// Copyright (c) Samuel Gratzl.
+// Distributed under the terms of the MIT License.
+
 import * as lineup_widget from '.';
 import {IJupyterWidgetRegistry} from '@jupyter-widgets/base';
 

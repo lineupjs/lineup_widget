@@ -24,159 +24,161 @@ log.info('$PATH=%s' % os.environ['PATH'])
 
 
 def js_prerelease(command, strict=False):
-    """decorator for building minified js/css prior to another command"""
-    class DecoratedCommand(command):
-        def run(self):
-            jsdeps = self.distribution.get_command_obj('jsdeps')
-            if not is_repo and all(os.path.exists(t) for t in jsdeps.targets):
-                # sdist, nothing to do
-                command.run(self)
-                return
+  """decorator for building minified js/css prior to another command"""
 
-            try:
-                self.distribution.run_command('jsdeps')
-            except Exception as e:
-                missing = [t for t in jsdeps.targets if not os.path.exists(t)]
-                if strict or missing:
-                    log.warn('rebuilding js and css failed')
-                    if missing:
-                        log.error('missing files: %s' % missing)
-                    raise e
-                else:
-                    log.warn('rebuilding js and css failed (not a problem)')
-                    log.warn(str(e))
-            command.run(self)
-            update_package_data(self.distribution)
-    return DecoratedCommand
+  class DecoratedCommand(command):
+    def run(self):
+      jsdeps = self.distribution.get_command_obj('jsdeps')
+      if not is_repo and all(os.path.exists(t) for t in jsdeps.targets):
+        # sdist, nothing to do
+        command.run(self)
+        return
+
+      try:
+        self.distribution.run_command('jsdeps')
+      except Exception as e:
+        missing = [t for t in jsdeps.targets if not os.path.exists(t)]
+        if strict or missing:
+          log.warn('rebuilding js and css failed')
+          if missing:
+            log.error('missing files: %s' % missing)
+          raise e
+        else:
+          log.warn('rebuilding js and css failed (not a problem)')
+          log.warn(str(e))
+      command.run(self)
+      update_package_data(self.distribution)
+  return DecoratedCommand
 
 
 def update_package_data(distribution):
-    """update package_data to catch changes during setup"""
-    build_py = distribution.get_command_obj('build_py')
-    # distribution.package_data = find_package_data()
-    # re-init build_py options which load package_data
-    build_py.finalize_options()
+  """update package_data to catch changes during setup"""
+
+  build_py = distribution.get_command_obj('build_py')
+  # distribution.package_data = find_package_data()
+  # re-init build_py options which load package_data
+  build_py.finalize_options()
 
 
 class NPM(Command):
-    description = 'install package.json dependencies using npm'
+  description = 'install package.json dependencies using npm'
 
-    user_options = []
+  user_options = []
 
-    node_modules = os.path.join(node_root, 'node_modules')
+  node_modules = os.path.join(node_root, 'node_modules')
 
-    targets = [
-        os.path.join(here, 'lineup_widget', 'static', 'extension.js'),
-        os.path.join(here, 'lineup_widget', 'static', 'index.js')
-    ]
+  targets = [
+    os.path.join(here, 'lineup_widget', 'static', 'extension.js'),
+    os.path.join(here, 'lineup_widget', 'static', 'index.js')
+  ]
 
-    def initialize_options(self):
-        pass
+  def initialize_options(self):
+    pass
 
-    def finalize_options(self):
-        pass
+  def finalize_options(self):
+    pass
 
-    def get_npm_name(self):
-        npm_name = 'npm'
-        if platform.system() == 'Windows':
-            npm_name = 'npm.cmd'
-            
-        return npm_name
-    
-    def has_npm(self):
-        npm_name = self.get_npm_name()
-        try:
-            check_call([npm_name, '--version'])
-            return True
-        except:
-            return False
+  def get_npm_name(self):
+    npm_name = 'npm'
+    if platform.system() == 'Windows':
+      npm_name = 'npm.cmd'
 
-    def should_run_npm_install(self):
-        package_json = os.path.join(node_root, 'package.json')
-        node_modules_exists = os.path.exists(self.node_modules)
-        return self.has_npm()
+    return npm_name
 
-    def run(self):
-        has_npm = self.has_npm()
+  def has_npm(self):
+    npm_name = self.get_npm_name()
+    try:
+      check_call([npm_name, '--version'])
+      return True
+    except:
+      return False
+
+  def should_run_npm_install(self):
+    package_json = os.path.join(node_root, 'package.json')
+    node_modules_exists = os.path.exists(self.node_modules)
+    return self.has_npm()
+
+  def run(self):
+    has_npm = self.has_npm()
+    if not has_npm:
+      log.error("`npm` unavailable.  If you're running this command using sudo, make sure `npm` is available to sudo")
+
+    env = os.environ.copy()
+    env['PATH'] = npm_path
+
+    if self.should_run_npm_install():
+      log.info("Installing build dependencies with npm.  This may take a while...")
+      npm_name = self.get_npm_name()
+      check_call([npm_name, 'install'], cwd=node_root, stdout=sys.stdout, stderr=sys.stderr)
+      os.utime(self.node_modules, None)
+
+    for t in self.targets:
+      if not os.path.exists(t):
+        msg = 'Missing file: %s' % t
         if not has_npm:
-            log.error("`npm` unavailable.  If you're running this command using sudo, make sure `npm` is available to sudo")
+          msg += '\nnpm is required to build a development version of a widget extension'
+        raise ValueError(msg)
 
-        env = os.environ.copy()
-        env['PATH'] = npm_path
-
-        if self.should_run_npm_install():
-            log.info("Installing build dependencies with npm.  This may take a while...")
-            npm_name = self.get_npm_name()
-            check_call([npm_name, 'install'], cwd=node_root, stdout=sys.stdout, stderr=sys.stderr)
-            os.utime(self.node_modules, None)
-
-        for t in self.targets:
-            if not os.path.exists(t):
-                msg = 'Missing file: %s' % t
-                if not has_npm:
-                    msg += '\nnpm is required to build a development version of a widget extension'
-                raise ValueError(msg)
-
-        # update package data in case this created new files
-        update_package_data(self.distribution)
+    # update package data in case this created new files
+    update_package_data(self.distribution)
 
 
 version_ns = {}
 with open(os.path.join(here, 'lineup_widget', '_version.py')) as f:
-    exec(f.read(), {}, version_ns)
+  exec(f.read(), {}, version_ns)
 
 setup_args = {
-    'name': 'lineup_widget',
-    'version': version_ns['__version__'],
-    'description': 'Wrapper around the LineUp.js library for multi attribute rankings',
-    'include_package_data': True,
-    'data_files': [
-        ('share/jupyter/nbextensions/lineup_widget', [
-            'lineup_widget/static/extension.js',
-            'lineup_widget/static/index.js',
-            'lineup_widget/static/index.js.map',
-        ],),
-        ('etc/jupyter/nbconfig/notebook.d/', ['lineup_widget.json'])
-    ],
-    'install_requires': [
-        'ipywidgets>=7.0.0',
-        'pandas>=0.18.0'
-    ],
-    'packages': find_packages(),
-    'zip_safe': False,
-    'cmdclass': {
-        'build_py': js_prerelease(build_py),
-        'egg_info': js_prerelease(egg_info),
-        'sdist': js_prerelease(sdist, strict=True),
-        'jsdeps': NPM,
-    },
+  'name': 'lineup_widget',
+  'version': version_ns['__version__'],
+  'description': 'Wrapper around the LineUp.js library for multi attribute rankings',
+  'include_package_data': True,
+  'data_files': [
+    ('share/jupyter/nbextensions/lineup_widget', [
+      'lineup_widget/static/extension.js',
+      'lineup_widget/static/index.js',
+      'lineup_widget/static/index.js.map',
+    ],),
+    ('etc/jupyter/nbconfig/notebook.d/', ['lineup_widget.json'])
+  ],
+  'install_requires': [
+    'ipywidgets>=7.0.0',
+    'pandas>=0.18.0'
+  ],
+  'packages': find_packages(),
+  'zip_safe': False,
+  'cmdclass': {
+    'build_py': js_prerelease(build_py),
+    'egg_info': js_prerelease(egg_info),
+    'sdist': js_prerelease(sdist, strict=True),
+    'jsdeps': NPM,
+  },
 
-    'author': 'Samuel Gratzl',
-    'author_email': 'samuel-gratzl@gmx.at',
-    'url': 'https://github.com/datavisyn/lineup_widget',
-    'license': 'MIT',
-    'keywords': [
-        'ipython',
-        'jupyter',
-        'widgets',
-        'lineup',
-        'ranking'
-    ],
-    'platforms': 'Linux, Mac OS X, Windows',
-    'classifiers': [
-        'Development Status :: 4 - Beta',
-        'Framework :: Jupyter',
-        'Intended Audience :: Developers',
-        'Intended Audience :: Science/Research',
-        'License :: OSI Approved :: MIT License',
-        'Topic :: Multimedia :: Graphics',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-    ],
+  'author': 'Samuel Gratzl',
+  'author_email': 'samuel-gratzl@gmx.at',
+  'url': 'https://github.com/datavisyn/lineup_widget',
+  'license': 'MIT',
+  'keywords': [
+    'ipython',
+    'jupyter',
+    'widgets',
+    'lineup',
+    'ranking'
+  ],
+  'platforms': 'Linux, Mac OS X, Windows',
+  'classifiers': [
+    'Development Status :: 4 - Beta',
+    'Framework :: Jupyter',
+    'Intended Audience :: Developers',
+    'Intended Audience :: Science/Research',
+    'License :: OSI Approved :: MIT License',
+    'Topic :: Multimedia :: Graphics',
+    'Programming Language :: Python :: 2',
+    'Programming Language :: Python :: 2.7',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.3',
+    'Programming Language :: Python :: 3.4',
+    'Programming Language :: Python :: 3.5',
+  ],
 }
 
 setup(**setup_args)

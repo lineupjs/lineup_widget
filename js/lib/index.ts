@@ -1,4 +1,5 @@
-// Export widget models and views, and the npm package version number.
+// Copyright (c) Samuel Gratzl.
+// Distributed under the terms of the MIT License.
 
 export * from './widget';
 import {JUPYTER_EXTENSION_VERSION} from './version';

@@ -4,9 +4,13 @@ dist/
 build/
 *.py[cod]
 node_modules/
+*.map
 
 # Compiled javascript
 lineup_widget/static/
 
 # OS X
 .DS_Store
+
+js/lib/*.js
+!js/lib/extension.js
