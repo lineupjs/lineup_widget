@@ -3,7 +3,7 @@
 # Copyright (c) Samuel Gratzl.
 # Distributed under the terms of the MIT License.
 
-version_info = (1, 0, 0, 'alpha', 0)
+version_info = (1, 0, 0, 'final', 0)
 
 _specifier_ = {'alpha': 'a', 'beta': 'b', 'candidate': 'rc', 'final': ''}
 
