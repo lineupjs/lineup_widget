@@ -1,0 +1,2 @@
+recursive-include lineup_widget/static *.*
+include lineup_widget.json
