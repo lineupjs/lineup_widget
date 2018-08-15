@@ -22,8 +22,10 @@
     "lib/**/*.js",
     "lib/**/*.d.ts",
     "lib/**/*.map",
-    "dist/*.js"
+    "dist"
   ],
+  "main": "dist/index.js",
+  "types": "dist/lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/datavisyn/lineup_widget"
