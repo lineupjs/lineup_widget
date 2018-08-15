@@ -67,6 +67,37 @@ interact(selection_changed, selection=lineup_widget.LineUpWidget(df));
 ![interact example](https://user-images.githubusercontent.com/4129778/35321846-6c5b07cc-00e8-11e8-9388-0acb65cbb509.png)
 
 
+Release Package
+---------------
+
+1. JavaScript NPM
+   ```bash
+   cd js
+   npm install
+   npm publish
+   ```
+
+1. Python PyPi
+   ```bash
+   pip install -U twine setuptools
+
+   python setup.py clean sdist bdist_wheel
+   twine upload dist/*
+   ```
+
+1. Git 
+   ```bash
+   git tag v<version>
+   git push --follow-tags
+   ```
+
+1. update versions
+   edit the version in
+    * `js/package.json`
+    * `js/version.ts`
+    * `lineup_widget/_version.py`
+
+
 Authors
 -------
 
