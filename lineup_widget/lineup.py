@@ -1,19 +1,14 @@
-#!/usr/bin/env python
 # coding: utf-8
 
 # Copyright (c) Samuel Gratzl.
 # Distributed under the terms of the MIT License.
 
-"""
-TODO: Add module docstring
-"""
-
-from ipywidgets import DOMWidget, Layout, ValueWidget
-from traitlets import default, Unicode, List, Dict, Bool, HasTraits, Enum, Union, Int
+from ipywidgets import DOMWidget, Layout, ValueWidget, register
+from traitlets import default, Unicode, List, Dict, Bool, Enum, Union, Int
 import pandas as pd
 
 module_name = 'lineup_widget'
-module_version = '0.1.0'
+module_version = '1.0.0'
 
 
 class ALineUpWidget(ValueWidget, DOMWidget):
@@ -79,12 +74,13 @@ class ALineUpWidget(ValueWidget, DOMWidget):
 
   @default('layout')
   def _default_layout(self):
-    return Layout(height='400px', align_self='stretch')
+    return Layout(height='600px', align_self='stretch')
 
   def on_selection_changed(self, callback):
     self.observe(lambda evt: callback(evt.new), 'value')
 
 
+@register
 class LineUpWidget(ALineUpWidget):
   """builds a LineUp widget wrapper
   """
@@ -93,6 +89,7 @@ class LineUpWidget(ALineUpWidget):
   description = Unicode('', help="LineUp").tag(sync=True)
 
 
+@register
 class TaggleWidget(ALineUpWidget):
   """builds a Taggle widget wrapper
   """

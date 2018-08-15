@@ -1,20 +1,15 @@
-// Copyright (c) Jupyter Development Team.
+// Copyright (c) Samuel Gratzl.
 // Distributed under the terms of the MIT License.
 
 import {IJupyterWidgetRegistry} from '@jupyter-widgets/base';
-import {Application, IPlugin} from '@phosphor/application';
-import {Widget} from '@phosphor/widgets';
 import {JUPYTER_EXTENSION_VERSION} from './version';
-import {LineUpModel, LineUpView, TaggleModel, TaggleView} from './widget';
-
-
-const EXTENSION_ID = 'jupyter.extensions.lineup';
+import {LineUpModel, TaggleModel, TaggleView, LineUpView} from './widget';
 
 /**
  * The lineUp plugin.
  */
-const lineupPlugin: IPlugin<Application<Widget>, void> = {
-  id: EXTENSION_ID,
+const lineupPlugin = {
+  id: 'lineup_widget',
   requires: [IJupyterWidgetRegistry],
   activate: activateWidgetExtension,
   autoStart: true
@@ -26,15 +21,15 @@ export default lineupPlugin;
 /**
  * Activate the widget extension.
  */
-function activateWidgetExtension(app: Application<Widget>, registry: IJupyterWidgetRegistry): void {
+function activateWidgetExtension(_app: any, registry: IJupyterWidgetRegistry) {
   registry.registerWidget({
     name: 'lineup_widget',
     version: JUPYTER_EXTENSION_VERSION,
     exports: {
       LineUpModel,
-      LineUpView,
       TaggleModel,
-      TaggleView
+      TaggleView,
+      LineUpView
     }
   });
 }

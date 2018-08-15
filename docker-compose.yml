@@ -1,7 +1,7 @@
 version: '2.0'
 services:
   python:
-    image: jupyter/minimal-notebook
+    image: jupyter/base-notebook
     volumes:
       - './:/ws'
     command: 'sleep 10000'

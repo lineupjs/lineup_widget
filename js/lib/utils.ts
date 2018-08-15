@@ -1,3 +1,6 @@
+// Copyright (c) Samuel Gratzl.
+// Distributed under the terms of the MIT License.
+
 import {buildRanking, LocalDataProvider, Ranking} from 'lineupjs';
 
 export interface ILineUpRanking {

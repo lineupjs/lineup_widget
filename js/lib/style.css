@@ -1,0 +1,8 @@
+@import '~lineupjs/build/LineUpJS.css';
+
+.lineup-engine > main > article {
+  /*
+   * override jupyter style
+   */
+  line-height: 100%;
+}

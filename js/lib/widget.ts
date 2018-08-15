@@ -3,9 +3,17 @@
 
 import {DOMWidgetModel, DOMWidgetView} from '@jupyter-widgets/base';
 import {deriveColors, IColumnDesc, ITaggleOptions, LineUp, Taggle, LocalDataProvider} from 'lineupjs';
-import 'lineupjs/build/LineUpJS.css';
+import './style.css';
 import {ILineUpRanking, pushRanking} from './utils';
 import {JUPYTER_EXTENSION_VERSION} from './version';
+
+const fields = {
+  _data: [],
+  _columns: [],
+  options: {},
+  rankings: [],
+  value: []
+}
 
 export class LineUpModel extends DOMWidgetModel {
   defaults() {
@@ -17,7 +25,7 @@ export class LineUpModel extends DOMWidgetModel {
       _view_name: LineUpModel.view_name,
       _view_module: LineUpModel.view_module,
       _view_module_version: LineUpModel.view_module_version,
-      data: []
+      ...fields
     };
   }
 
@@ -45,7 +53,7 @@ export class TaggleModel extends DOMWidgetModel {
       _view_name: TaggleModel.view_name,
       _view_module: TaggleModel.view_module,
       _view_module_version: TaggleModel.view_module_version,
-      data: []
+      ...fields
     };
   }
 
@@ -80,10 +88,11 @@ export abstract class ALineUpView extends DOMWidgetView {
     this.createRankings();
 
     const options = this.model.get('options');
-    this.lineup = this.createLineUp(Object.assign({}, options, {
+    this.lineup = this.createLineUp({
+      ...options,
       panel: options.sidePanel !== false,
       panelCollapsed: options.sidePanel === 'collapsed'
-    }));
+    });
   }
 
   protected abstract createLineUp(options: Partial<ITaggleOptions>): LineUp | Taggle;

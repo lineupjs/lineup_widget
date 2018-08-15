@@ -1,7 +1,7 @@
-LineUp.js as Jupyther Widget
+LineUp.js as Jupyter Widget
 ============================
 
-[![License: MIT][mit-image]][mit-url] [![CircleCI][ci-image]][ci-url] [![codecov][codecov-image]][codecov-url] 
+[![License: MIT][mit-image]][mit-url] [![CircleCI][ci-image]][ci-url] [![CircleCI][ci-image-dev]][ci-url-dev] 
 
 LineUp is an interactive technique designed to create, visualize and explore rankings of items based on a set of heterogeneous attributes. 
 This is a [Jupyter Widget](https://jupyter.org/widgets.html) wrapper around the JavaScript library [LineUp.js](https://github.com/datavisyn/lineupjs). Details about the LineUp visualization technique can be found at [http://lineup.caleydo.org](http://lineup.caleydo.org). 
@@ -9,15 +9,29 @@ This is a [Jupyter Widget](https://jupyter.org/widgets.html) wrapper around the 
 Installation
 ------------
 
-```bash
-pip install -e git+https://github.com/datavisyn/lineup_widget.git#egg=lineup_widget
-jupyter nbextension enable --py lineup_widget
-```
+1. install Jupyter Widgets
+   ```bash
+   pip install ipywidgets
+   jupyter nbextension enable --py widgetsnbextension
+   ```
+
+1. install library
+   ```bash
+   pip install lineup_widget
+   jupyter nbextension enable --py --sys-prefix lineup_widget
+   ```
+
+1. directly via repository (requires node and npm to be installed):
+   ```bash
+   pip install -e git+https://github.com/datavisyn/lineup_widget.git#egg=lineup_widget
+   jupyter nbextension enable --py --sys-prefix lineup_widget
+   ```
 
 Or, if you use jupyterlab:
 
+TODO
 ```bash
-pip install -e git+https://github.com/datavisyn/lineup_widget.git@develop#egg=lineup_widget
+pip install lineup_widget
 jupyter labextension install @jupyter-widgets/jupyterlab-manager
 ```
 
@@ -63,7 +77,7 @@ Authors
 [mit-url]: https://opensource.org/licenses/MIT
 [binder-image]: https://camo.githubusercontent.com/70c5b4d050d4019f4f20b170d75679a9316ac5e5/687474703a2f2f6d7962696e6465722e6f72672f62616467652e737667
 [binder-url]: http://mybinder.org/repo/datavisyn/lineup_widget/examples
-[codecov-image]: https://codecov.io/gh/datavisyn/lineup_widget/branch/master/graph/badge.svg
-[codecov-url]: https://codecov.io/gh/datavisyn/lineup_widget
 [ci-image]: https://circleci.com/gh/datavisyn/lineup_widget.svg?style=shield
 [ci-url]: https://circleci.com/gh/datavisyn/lineup_widget
+[ci-image-dev]: https://circleci.com/gh/datavisyn/lineup_widget/tree/develop.svg?style=shield
+[ci-url-dev]: https://circleci.com/gh/datavisyn/lineup_widget/tree/develop
