@@ -32,7 +32,9 @@
   },
   "scripts": {
     "clean": "rimraf dist ../lineup_widget/static",
-    "prebuild": "npm run clean",
+    "precompile": "npm run clean",
+    "compile": "tsc --project .",
+    "prebuild": "npm run compile",
     "build": "webpack --mode=production",
     "build:dev": "webpack --mode=development",
     "watch": "webpack --watch --mode=development",

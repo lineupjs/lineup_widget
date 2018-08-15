@@ -21,19 +21,17 @@ Installation
    jupyter nbextension enable --py --sys-prefix lineup_widget
    ```
 
-1. directly via repository (requires node and npm to be installed):
+1. OR directly via repository (requires node and npm to be installed):
    ```bash
    pip install -e git+https://github.com/datavisyn/lineup_widget.git#egg=lineup_widget
    jupyter nbextension enable --py --sys-prefix lineup_widget
    ```
 
-Or, if you use jupyterlab:
-
-TODO
-```bash
-pip install lineup_widget
-jupyter labextension install @jupyter-widgets/jupyterlab-manager
-```
+1. Jupyterlab
+   ```bash
+   jupyter labextension install @jupyter-widgets/jupyterlab-manager
+   jupyter labextension install lineup_widget
+   ```
 
 Examples
 --------

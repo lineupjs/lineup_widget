@@ -13,4 +13,5 @@ lineup_widget/static/
 .DS_Store
 
 js/lib/*.js
+js/lib/*.d.ts
 !js/lib/extension.js
