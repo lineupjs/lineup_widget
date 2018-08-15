@@ -1,0 +1,101 @@
+version: 2
+jobs:
+  build-node:
+    working_directory: ~/data
+    docker:
+      - image: circleci/node:8-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps-npm-{{ .Branch }}-{{ checksum "package.json" }}{{ checksum "package-lock.json" }}
+      - run:
+          name: 'npm install'
+          command: |
+            cd js
+            npm install
+      - save_cache:
+          key: deps-npm1-{{ .Branch }}-{{ checksum "package.json" }}{{ checksum "package-lock.json" }}
+          paths:
+            - js/node_modules
+      - run:
+          command: |
+            cd js
+            npm run build
+
+  build-python27:
+    working_directory: ~/data
+    docker:
+      - image: circleci/python:2.7-browsers
+    steps:
+      - run:
+          name: install node
+          command: |
+            curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+      - run:
+          command: |
+            sudo pip install -U pip py2venv
+      - checkout
+      - restore_cache:
+          key: deps-27-{{ .Branch }}-{{ checksum "setup.py" }}
+      - run:
+          name: 'pip install'
+          command: |
+            python -m venv venv
+            . venv/bin/activate
+            pip install setuptools
+            pip install -e .[test]
+      - save_cache:
+          key: deps-27-{{ .Branch }}-{{ checksum "setup.py" }}
+          paths:
+            - venv
+      - run:
+          command: |
+            . venv/bin/activate
+            python setup.py sdist bdist_wheel
+
+  build-python36:
+    working_directory: ~/data
+    docker:
+      - image: circleci/python:3.6.4-browsers
+    steps:
+      - run:
+          name: install node
+          command: |
+            curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+      - run:
+          command: |
+            sudo pip install -U pip
+      - checkout
+      - restore_cache:
+          key: deps-36-{{ .Branch }}-{{ checksum "setup.py" }}
+      - run:
+          name: 'pip install'
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install setuptools
+            pip install -e .[test]
+      - save_cache:
+          key: deps-36-{{ .Branch }}-{{ checksum "setup.py" }}
+          paths:
+            - venv
+      - run:
+          name: build
+          command: |
+            . venv/bin/activate
+            python setup.py sdist bdist_wheel
+
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build-node
+      - build-python27:
+          requires:
+            - build-node
+      - build-python36:
+          requires:
+            - build-node
