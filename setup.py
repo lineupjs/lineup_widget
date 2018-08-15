@@ -69,7 +69,10 @@ class NPM(Command):
 
   targets = [
     os.path.join(here, 'lineup_widget', 'static', 'extension.js'),
-    os.path.join(here, 'lineup_widget', 'static', 'index.js')
+    os.path.join(here, 'lineup_widget', 'static', 'index.js'),
+    os.path.join(here, 'lineup_widget', 'static', '*.ttf'),
+    os.path.join(here, 'lineup_widget', 'static', '*.eot'),
+    os.path.join(here, 'lineup_widget', 'static', '*.svg')
   ]
 
   def initialize_options(self):

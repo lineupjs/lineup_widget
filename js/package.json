@@ -31,7 +31,7 @@
     "url": "https://github.com/datavisyn/lineup_widget"
   },
   "scripts": {
-    "clean": "rimraf dist/",
+    "clean": "rimraf dist ../lineup_widget/static",
     "prebuild": "npm run clean",
     "build": "webpack --mode=production",
     "build:dev": "webpack --mode=development",
