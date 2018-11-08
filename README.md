@@ -98,7 +98,7 @@ Release Package
 1. update versions
    edit the version in
     * `js/package.json`
-    * `js/version.ts`
+    * `js/lib/version.ts`
     * `lineup_widget/_version.py`
 
 

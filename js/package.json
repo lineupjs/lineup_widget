@@ -1,6 +1,6 @@
 {
   "name": "lineup_widget",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "description": "Wrapper around the LineUp.js library for multi attribute rankings",
   "keywords": [
     "jupyter",
@@ -16,7 +16,8 @@
   "license": "MIT",
   "author": {
     "name": "Samuel Gratzl",
-    "email": "samuel_gratzl@gmx.at"
+    "email": "sam@sgratzl.com",
+    "url": "https://www.sgratzl.com"
   },
   "files": [
     "lib/**/*.js",
@@ -44,7 +45,7 @@
   },
   "dependencies": {
     "@jupyter-widgets/base": "^1.2.1",
-    "lineupjs": "^3.1.1"
+    "lineupjs": "~3.1.7"
   },
   "devDependencies": {
     "css-loader": "^1.0.0",

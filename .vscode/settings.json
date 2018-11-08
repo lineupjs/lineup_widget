@@ -6,7 +6,8 @@
       "**/CVS": true,
       "**/.DS_Store": true,
       "**/*.pyc": true,
-      "lib/**/*.d.ts": true,
+      "js/lib/**/*.d.ts": true,
+      "js/lib/**/*.js": true,
       "**/*.map": true
   },
   "beautify.options": {
