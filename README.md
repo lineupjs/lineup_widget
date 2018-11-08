@@ -31,6 +31,7 @@ Installation
    ```bash
    jupyter labextension install @jupyter-widgets/jupyterlab-manager
    jupyter labextension install lineup_widget
+   jupyter lab
    ```
 
 Examples
