@@ -22,9 +22,13 @@ class ALineUpWidget(ValueWidget, DOMWidget):
   _columns = List(trait=Dict(), default_value=[]).tag(sync=True)
   options = Dict(traits=dict(filterGlobally=Bool(), singleSelection=Bool(), noCriteriaLimits=Bool(), animated=Bool(),
                              sidePanel=Enum((True, False, 'collapsed')), summaryHeader=Bool(), overviewMode=Bool(),
+                             hierarchyIndicator=Bool(), labelRotation=Int(), ignoreUnsupportedBrowser=Bool(),
+                             rowHeight=Int(), rowPadding=Int(), groupHeight=Int(), groupPadding=Int(),
                              expandLineOnHover=Bool(), defaultSlopeGraphMode=Enum(('item', 'band'))),
                  default_value=dict(filterGlobally=True, singleSelection=False, noCriteriaLimits=False, animated=True,
                                     sidePanel='collapsed', summaryHeader=True, overviewMode=False,
+                                    hierarchyIndicator=True, labelRotation=0, ignoreUnsupportedBrowser=False,
+                                    rowHeight=18, rowPadding=2, groupHeight=40, groupPadding=5,
                                     expandLineOnHover=False, defaultSlopeGraphMode='item'
                                     )).tag(sync=True)
   rankings = List(trait=Dict(traits=dict(columns=List(trait=Union((Unicode(), Dict()))), sort_by=List(trait=Unicode()),
