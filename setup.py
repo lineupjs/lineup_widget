@@ -99,6 +99,12 @@ class NPM(Command):
     node_modules_exists = os.path.exists(self.node_modules)
     return self.has_npm()
 
+  def should_run_npm_build(self):
+    for t in self.targets:
+      if not os.path.exists(t):
+        return True
+    return False
+
   def run(self):
     has_npm = self.has_npm()
     if not has_npm:
@@ -112,6 +118,12 @@ class NPM(Command):
       npm_name = self.get_npm_name()
       check_call([npm_name, 'install'], cwd=node_root, stdout=sys.stdout, stderr=sys.stderr)
       os.utime(self.node_modules, None)
+
+    if self.should_run_npm_build():
+      log.info("building with npm.  This may take a while...")
+      npm_name = self.get_npm_name()
+      check_call([npm_name, 'run', 'build'], cwd=node_root, stdout=sys.stdout, stderr=sys.stderr)
+
 
     for t in self.targets:
       if not os.path.exists(t):
