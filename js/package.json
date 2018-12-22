@@ -9,9 +9,9 @@
     "ipywidgets",
     "widgets"
   ],
-  "homepage": "https://github.com/datavisyn/lineup_widget",
+  "homepage": "https://github.com/lineupjs/lineup_widget",
   "bugs": {
-    "url": "https://github.com/datavisyn/lineup_widget/issues"
+    "url": "https://github.com/lineupjs/lineup_widget/issues"
   },
   "license": "MIT",
   "author": {
@@ -30,7 +30,7 @@
   "types": "dist/lib/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/datavisyn/lineup_widget"
+    "url": "https://github.com/lineupjs/lineup_widget"
   },
   "scripts": {
     "clean": "rimraf dist ../lineup_widget/static lib/*.d.ts lib/embed.js lib/index.js lib/labplugin.js lib/utils.js",

@@ -168,8 +168,8 @@ setup_args = {
   },
 
   'author': 'Samuel Gratzl',
-  'author_email': 'samuel-gratzl@gmx.at',
-  'url': 'https://github.com/datavisyn/lineup_widget',
+  'author_email': 'sam@sgratzl.com',
+  'url': 'https://github.com/lineupjs/lineup_widget',
   'license': 'MIT',
   'keywords': [
     'ipython',
