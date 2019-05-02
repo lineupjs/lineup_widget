@@ -25,13 +25,8 @@ jobs:
   build-python27:
     working_directory: ~/data
     docker:
-      - image: circleci/python:2.7-browsers
+      - image: circleci/python:2.7-node-browsers
     steps:
-      - run:
-          name: install node
-          command: |
-            curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-            sudo apt-get install -y nodejs
       - run:
           command: |
             sudo pip install -U pip py2venv
@@ -57,16 +52,8 @@ jobs:
   build-python36:
     working_directory: ~/data
     docker:
-      - image: circleci/python:3.6.4-browsers
+      - image: circleci/python:3.6-node-browsers
     steps:
-      - run:
-          name: install node
-          command: |
-            curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-            sudo apt-get install -y nodejs
-      - run:
-          command: |
-            sudo pip install -U pip
       - checkout
       - restore_cache:
           key: deps-36-{{ .Branch }}-{{ checksum "setup.py" }}
