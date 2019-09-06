@@ -44,7 +44,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@jupyter-widgets/base": "^1.2.2",
+    "@jupyter-widgets/base": "^2.0.1",
     "lineupjs": "~3.1.7"
   },
   "devDependencies": {
