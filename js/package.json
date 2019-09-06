@@ -1,6 +1,6 @@
 {
   "name": "lineup_widget",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Wrapper around the LineUp.js library for multi attribute rankings",
   "keywords": [
     "jupyter",
@@ -48,6 +48,7 @@
     "lineupjs": "~3.1.7"
   },
   "devDependencies": {
+    "@types/node": "^12.7.4",
     "css-loader": "^1.0.1",
     "file-loader": "^2.0.0",
     "mkdirp": "^0.5.1",
