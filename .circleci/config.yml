@@ -7,14 +7,14 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-npm-{{ .Branch }}-{{ checksum "package.json" }}{{ checksum "package-lock.json" }}
+          key: deps-npm-{{ .Branch }}-{{ checksum "js/package.json" }}{{ checksum "js/package-lock.json" }}
       - run:
           name: 'npm install'
           command: |
             cd js
             npm install
       - save_cache:
-          key: deps-npm1-{{ .Branch }}-{{ checksum "package.json" }}{{ checksum "package-lock.json" }}
+          key: deps-npm1-{{ .Branch }}-{{ checksum "js/package.json" }}{{ checksum "js/package-lock.json" }}
           paths:
             - js/node_modules
       - run:
