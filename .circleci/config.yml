@@ -25,13 +25,8 @@ jobs:
   build-python36:
     working_directory: ~/data
     docker:
-      - image: circleci/python:3.6.4-browsers
+      - image: circleci/3.6-node-browsers
     steps:
-      - run:
-          name: install node
-          command: |
-            curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-            sudo apt-get install -y nodejs npm
       - run:
           command: |
             sudo pip install -U pip
