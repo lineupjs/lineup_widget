@@ -104,9 +104,7 @@ export abstract class ALineUpView extends DOMWidgetView {
 
     return new LocalDataProvider(rows, deriveColors(columns), {
       filterGlobally: options.filterGlobally,
-      multiSelection: !options.singleSelection,
-      maxGroupColumns: options.noCriteriaLimits ? Infinity : 1,
-      maxNestedSortingCriteria: options.noCriteriaLimits ? Infinity : 1
+      singleSelection: options.singleSelection
     });
   }
 

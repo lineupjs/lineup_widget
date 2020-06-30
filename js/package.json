@@ -44,22 +44,22 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@jupyter-widgets/base": "^2.0.1",
-    "lineupjs": "~3.1.7"
+    "@jupyter-widgets/base": ">=2 || 4.0.0-alpha.0",
+    "lineupjs": "~4.0.0"
   },
   "devDependencies": {
-    "css-loader": "^3.2.0",
-    "file-loader": "^4.2.0",
-    "mkdirp": "^0.5.1",
+    "css-loader": "^3.6.0",
+    "file-loader": "^6.0.0",
+    "mkdirp": "^1.0.4",
     "npm-run-all": "^4.1.5",
-    "rimraf": "^2.6.3",
-    "source-map-loader": "^0.2.4",
-    "style-loader": "^1.0.0",
-    "ts-loader": "^6.0.4",
-    "typescript": "^3.5.3",
-    "url-loader": "^2.1.0",
-    "webpack": "^4.39.1",
-    "webpack-cli": "^3.3.6"
+    "rimraf": "^3.0.2",
+    "source-map-loader": "^1.0.0",
+    "style-loader": "^1.2.1",
+    "ts-loader": "^7.0.5",
+    "typescript": "^3.9.5",
+    "url-loader": "^4.1.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
   },
   "jupyterlab": {
     "extension": "lib/labplugin"
