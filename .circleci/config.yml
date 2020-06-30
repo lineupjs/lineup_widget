@@ -7,14 +7,14 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: deps-npm-{{ .Branch }}-{{ checksum "package.json" }}{{ checksum "package-lock.json" }}
+          key: deps-npm-{{ .Branch }}-{{ checksum "js/package.json" }}{{ checksum "js/package-lock.json" }}
       - run:
           name: 'npm install'
           command: |
             cd js
             npm install
       - save_cache:
-          key: deps-npm1-{{ .Branch }}-{{ checksum "package.json" }}{{ checksum "package-lock.json" }}
+          key: deps-npm1-{{ .Branch }}-{{ checksum "js/package.json" }}{{ checksum "js/package-lock.json" }}
           paths:
             - js/node_modules
       - run:
@@ -22,38 +22,14 @@ jobs:
             cd js
             npm run build
 
-  build-python27:
-    working_directory: ~/data
-    docker:
-      - image: circleci/python:2.7-node-browsers
-    steps:
-      - run:
-          command: |
-            sudo pip install -U pip py2venv
-      - checkout
-      - restore_cache:
-          key: deps-27-{{ .Branch }}-{{ checksum "setup.py" }}
-      - run:
-          name: 'pip install'
-          command: |
-            python -m venv venv
-            . venv/bin/activate
-            pip install -U setuptools wheel
-            pip install -e .[test]
-      - save_cache:
-          key: deps-27-{{ .Branch }}-{{ checksum "setup.py" }}
-          paths:
-            - venv
-      - run:
-          command: |
-            . venv/bin/activate
-            python setup.py sdist bdist_wheel
-
   build-python36:
     working_directory: ~/data
     docker:
       - image: circleci/python:3.6-node-browsers
     steps:
+      - run:
+          command: |
+            sudo pip install -U pip
       - checkout
       - restore_cache:
           key: deps-36-{{ .Branch }}-{{ checksum "setup.py" }}
@@ -80,9 +56,6 @@ workflows:
   build:
     jobs:
       - build-node
-      - build-python27:
-          requires:
-            - build-node
       - build-python36:
           requires:
             - build-node
