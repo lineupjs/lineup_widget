@@ -12,7 +12,7 @@
     "strictNullChecks": true,
     "module": "commonjs",
     "moduleResolution": "node",
-    "target": "ES5",
+    "target": "ES6",
     "skipLibCheck": true,
     "sourceMap": true
   }
