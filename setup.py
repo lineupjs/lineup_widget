@@ -152,7 +152,7 @@ setup_args = {
   'include_package_data': True,
   'data_files': [
     ('share/jupyter/nbextensions/lineup_widget', glob('lineup_widget/static/*.*')),
-    ('etc/jupyter/nbconfig/notebook.d/', ['lineup_widget.json'])
+    ('etc/jupyter/nbconfig/notebook.d', ['lineup_widget.json'])
   ],
   'install_requires': [
     'ipywidgets>=7.0.0',
