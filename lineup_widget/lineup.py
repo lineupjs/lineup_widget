@@ -7,9 +7,7 @@ from ipywidgets import DOMWidget, Layout, ValueWidget, register
 from traitlets import default, Unicode, List, Dict, Bool, Enum, Union, Int
 import pandas as pd
 
-module_name = 'lineup_widget'
-module_version = '4.6.0'
-
+from lineup_widget._frontend import module_name, module_version
 
 class ALineUpWidget(ValueWidget, DOMWidget):
   _model_module = Unicode(module_name).tag(sync=True)
