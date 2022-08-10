@@ -67,7 +67,7 @@ Development Installation
 
 Create a dev environment:
 ```bash
-conda create -n lineup_widget-dev -c conda-forge nodejs yarn python jupyterlab
+conda create -n lineup_widget-dev -c conda-forge nodejs yarn python jupyterlab jupyter-packaging numpy pandas
 conda activate lineup_widget-dev
 ```
 

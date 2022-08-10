@@ -4,7 +4,7 @@
 # Copyright (c) Samuel Gratzl.
 # Distributed under the terms of the Modified BSD License.
 
-from .lineup import LineUpWidget
+from .lineup import LineUpWidget, TaggleWidget
 
 from ._version import __version__, version_info
 
