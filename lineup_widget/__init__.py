@@ -6,7 +6,7 @@
 
 from .lineup import LineUpWidget, TaggleWidget
 
-from ._version import __version__, version_info
+from ._version import __version__
 
 def _jupyter_labextension_paths():
     """Called by Jupyter Lab Server to detect if it is a valid labextension and
