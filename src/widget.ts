@@ -1,22 +1,31 @@
-// Copyright (c) Samuel Gratzl.
-// Distributed under the terms of the MIT License.
+// Copyright (c) Samuel Gratzl
+// Distributed under the terms of the Modified BSD License.
 
-import {DOMWidgetModel, DOMWidgetView} from '@jupyter-widgets/base';
-import {deriveColors, IColumnDesc, ITaggleOptions, LineUp, Taggle, LocalDataProvider} from 'lineupjs';
-import './style.css';
-import {ILineUpRanking, pushRanking} from './utils';
-import {JUPYTER_EXTENSION_VERSION} from './version';
+import { DOMWidgetModel, DOMWidgetView } from '@jupyter-widgets/base';
+
+import { MODULE_NAME, MODULE_VERSION } from './version';
+
+// Import the CSS
+import '../css/widget.css';
+import LineUp, {
+  ITaggleOptions,
+  Taggle,
+  LocalDataProvider,
+  IColumnDesc,
+  deriveColors,
+} from 'lineupjs';
+import { ILineUpRanking, pushRanking } from './utils';
 
 const fields = {
   _data: [],
   _columns: [],
   options: {},
   rankings: [],
-  value: []
-}
+  value: [],
+};
 
 export class LineUpModel extends DOMWidgetModel {
-  defaults() {
+  defaults(): any {
     return {
       ...super.defaults(),
       _model_name: LineUpModel.model_name,
@@ -25,7 +34,7 @@ export class LineUpModel extends DOMWidgetModel {
       _view_name: LineUpModel.view_name,
       _view_module: LineUpModel.view_module,
       _view_module_version: LineUpModel.view_module_version,
-      ...fields
+      ...fields,
     };
   }
 
@@ -35,16 +44,15 @@ export class LineUpModel extends DOMWidgetModel {
   };
 
   static model_name = 'LineUpModel';
-  static model_module = 'lineup_widget';
-  static model_module_version = JUPYTER_EXTENSION_VERSION;
-  static view_name = 'LineUpView';  // Set to null if no view
-  static view_module = 'lineup_widget';   // Set to null if no view
-  static view_module_version = JUPYTER_EXTENSION_VERSION;
+  static model_module = MODULE_NAME;
+  static model_module_version = MODULE_VERSION;
+  static view_name = 'LineUpView'; // Set to null if no view
+  static view_module = MODULE_NAME;
+  static view_module_version = MODULE_VERSION;
 }
 
-
 export class TaggleModel extends DOMWidgetModel {
-  defaults() {
+  defaults(): any {
     return {
       ...super.defaults(),
       _model_name: TaggleModel.model_name,
@@ -53,7 +61,7 @@ export class TaggleModel extends DOMWidgetModel {
       _view_name: TaggleModel.view_name,
       _view_module: TaggleModel.view_module,
       _view_module_version: TaggleModel.view_module_version,
-      ...fields
+      ...fields,
     };
   }
 
@@ -63,25 +71,25 @@ export class TaggleModel extends DOMWidgetModel {
   };
 
   static model_name = 'TaggleModel';
-  static model_module = LineUpModel.model_module;
-  static model_module_version = JUPYTER_EXTENSION_VERSION;
-  static view_name = 'TaggleView';  // Set to null if no view
-  static view_module = LineUpModel.view_module;   // Set to null if no view
-  static view_module_version = JUPYTER_EXTENSION_VERSION;
+  static model_module = MODULE_NAME;
+  static model_module_version = MODULE_VERSION;
+  static view_name = 'TaggleView'; // Set to null if no view
+  static view_module = MODULE_NAME; // Set to null if no view
+  static view_module_version = MODULE_VERSION;
 }
 
 export abstract class ALineUpView extends DOMWidgetView {
-  private lineup: LineUp | Taggle;
+  protected lineup: LineUp | Taggle;
   protected data: LocalDataProvider;
 
-  render() {
+  render(): void {
     this.data = this.createData();
     this.model.on('change:_data', this.dataChanged, this);
 
     this.data.setSelection(<number[]>this.model.get('value'));
     this.model.on('change:value', this.selectionChanged, this);
     this.data.on('selectionChanged', (selection: number[]) => {
-      this.model.set('value', selection, {updated_view: this});
+      this.model.set('value', selection, { updated_view: this });
       this.touch();
     });
 
@@ -91,11 +99,13 @@ export abstract class ALineUpView extends DOMWidgetView {
     this.lineup = this.createLineUp({
       ...options,
       panel: options.sidePanel !== false,
-      panelCollapsed: options.sidePanel === 'collapsed'
+      panelCollapsed: options.sidePanel === 'collapsed',
     });
   }
 
-  protected abstract createLineUp(options: Partial<ITaggleOptions>): LineUp | Taggle;
+  protected abstract createLineUp(
+    options: Partial<ITaggleOptions>
+  ): LineUp | Taggle;
 
   private createData() {
     const options = this.model.get('options');
@@ -104,7 +114,7 @@ export abstract class ALineUpView extends DOMWidgetView {
 
     return new LocalDataProvider(rows, deriveColors(columns), {
       filterGlobally: options.filterGlobally,
-      singleSelection: options.singleSelection
+      singleSelection: options.singleSelection,
     });
   }
 
@@ -114,7 +124,9 @@ export abstract class ALineUpView extends DOMWidgetView {
     const rows = this.model.get('_data');
     const columns = this.model.get('_columns');
 
-    deriveColors(columns).forEach((desc: IColumnDesc) => this.data.pushDesc(desc));
+    deriveColors(columns).forEach((desc: IColumnDesc) =>
+      this.data.pushDesc(desc)
+    );
 
     this.data.setData(rows);
     this.createRankings();
@@ -136,15 +148,13 @@ export abstract class ALineUpView extends DOMWidgetView {
 }
 
 export class LineUpView extends ALineUpView {
-
-  protected createLineUp(options: Partial<ITaggleOptions>) {
+  protected createLineUp(options: Partial<ITaggleOptions>): LineUp {
     return new LineUp(this.el, this.data, options);
   }
 }
 
 export class TaggleView extends ALineUpView {
-
-  protected createLineUp(options: Partial<ITaggleOptions>) {
+  protected createLineUp(options: Partial<ITaggleOptions>): Taggle {
     return new Taggle(this.el, this.data, options);
   }
 }

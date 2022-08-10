@@ -1,9 +1,0 @@
-version: '2.0'
-services:
-  python:
-    image: jupyter/base-notebook
-    volumes:
-      - './:/ws'
-    command: 'sleep 10000'
-    ports:
-      - '8888:8888'
